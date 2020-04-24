@@ -1,5 +1,12 @@
 class Companion {
-
+  /**
+   * 
+   * @param {number} x x initial
+   * @param {number} y y initial
+   * @param {number} height Height of the companion
+   * @param {number} width Width of the companion
+   * @param {hexadecimal} bgColor Background color of the companion
+   */
   constructor (x, y, height, width, bgColor) {
     // Initialize variables
     this.height = height || random(10, 100)
@@ -15,8 +22,8 @@ class Companion {
     this.elt.style.transitionDuration = random(1,5) + "s"
 
     this.elt.style.position = 'absolute'
-    this.y = y || random(0,window.innerHeight)
-    this.x = x || random(0,window.innerWidth)
+    this.y = y || random(0,window.innerHeight-this.height)
+    this.x = x || random(0,window.innerWidth-this.width)
 
     this.elt.style.zIndex = "9999999"
     document.getElementsByTagName("body")[0].appendChild(this.elt)
@@ -27,8 +34,8 @@ class Companion {
 
   beAlive() {
     setInterval(() => {
-      const randomY = Math.random() * 50 - 25 // Nombre entre -25 et 25
-      const randomX = Math.random() * 50 - 25 // Nombre entre -25 et 25
+      const randomX = random(-75,75)
+      const randomY = random(-75,75)
       this.x = this._x + randomX
       this.y = this._y + randomY
     }, random(1,5) * 1000) // Toutes les 5 secondes
@@ -46,14 +53,17 @@ class Companion {
 }
 
 /**
- * Retourne un nombre entier entre min et max
- * @param {number} min Nombre minimum
- * @param {number} max Nombre maximal
+ * Return an integer between min and max
+ * @param {number} min nb min
+ * @param {number} max nb max
  */
 function random(min, max) {
  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+/**
+ * Return an hexadecimal code (=color)
+ */
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -63,16 +73,4 @@ function getRandomColor() {
   return color;
 }
 
-new Companion()
-new Companion()
-new Companion()
-new Companion()
-new Companion()
-new Companion()
-new Companion()
-new Companion()
-new Companion()
-new Companion()
-new Companion()
-new Companion()
-new Companion()
+for (let i = 0; i < 1; i++) new Companion()
