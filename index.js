@@ -33,12 +33,14 @@ class Companion {
   }
 
   beAlive() {
+    const docElt = document.documentElement
     setInterval(() => {
-      const randomX = random(-75,75)
-      const randomY = random(-75,75)
-      this.x = this._x + randomX
-      this.y = this._y + randomY
-    }, random(1,5) * 1000) // Toutes les 5 secondes
+      // Move
+      const randomX = random(-100,100)
+      const randomY = random(-100,100)
+      if (this._x + randomX + this.width < docElt.scrollWidth && this._x + randomX > 0) this.x = this._x + randomX
+      if (this._y + randomY + this.height < docElt.scrollHeight && this._y + randomY > 0) this.y = this._y + randomY
+    }, random(1,5) * 1000)
   }
 
   set x(newX) {
@@ -73,4 +75,4 @@ function getRandomColor() {
   return color;
 }
 
-for (let i = 0; i < 1; i++) new Companion()
+for (let i = 0; i < 10; i++) new Companion()
