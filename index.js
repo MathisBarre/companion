@@ -12,6 +12,10 @@ class Companion {
     this.height = height || random(10, 100)
     this.width = width || this.height || random(10, 100)
     this.bgColor = bgColor || getRandomColor()
+    
+    this.rotateSec = 0.5
+    this.moveSec = random(1,5)
+    this.wrapper = document.documentElement
 
     // Create element
     this.elt = document.createElement("div")
@@ -19,7 +23,14 @@ class Companion {
     this.elt.style.height = this.height + 'px'
     this.elt.style.width = this.width + 'px'
     this.elt.style.backgroundColor = this.bgColor
-    this.elt.style.transitionDuration = random(1,5) + "s"
+    this.elt.style.backgroundImage = `url(https://www.girod-signalisation.com/Content/images/PRO_/PRO_signalisation-temporaire-panneaux-composables-symbole-pointe-de-fleche.jpg)`
+    this.elt.style.backgroundSize = `contain`
+    this.elt.style.border = `solid 1px blue`
+    this.elt.style.
+    
+    this.elt.style.transitionDuration = `${this.moveSec}s, ${this.moveSec}s, ${this.rotateSec}s`
+    this.elt.style.transitionProperty = `top, left, transform`
+    this.elt.style.transitionTimingFunction = `linear`
 
     this.elt.style.position = 'absolute'
     this.y = y || random(0,window.innerHeight-this.height)
@@ -32,15 +43,26 @@ class Companion {
     this.beAlive()
   }
 
-  beAlive() {
-    const docElt = document.documentElement
-    setInterval(() => {
-      // Move
-      const randomX = random(-100,100)
-      const randomY = random(-100,100)
-      if (this._x + randomX + this.width < docElt.scrollWidth && this._x + randomX > 0) this.x = this._x + randomX
-      if (this._y + randomY + this.height < docElt.scrollHeight && this._y + randomY > 0) this.y = this._y + randomY
-    }, random(1,5) * 1000)
+  async beAlive() {
+    const randomX = random(-100,100)
+    const randomY = random(-100,100)
+    const newX = this._x + randomX
+    const newY = this._y + randomY
+
+    if (!(newX + this.width < this.wrapper.scrollWidth && newX > 0)) { // Si les x dépassent
+      randomX = randomX * -1 // Inverse les x
+    }
+    if (!(newY + this.height < this.wrapper.scrollHeight && newY > 0)) { // Si les y dépassent
+      randomY = randomY * -1 // Inverse les y
+    }
+
+    const degree = getDegree(randomY, randomX)
+    this.elt.style.transform = `rotate(${degree}deg)`
+    await sleep(this.rotateSec * 1000)
+    this.x = newX
+    this.y = newY
+    await sleep(this.moveSec * 1000 + 1000)
+    this.beAlive()
   }
 
   set x(newX) {
@@ -52,6 +74,18 @@ class Companion {
     this._y = newY
     this.elt.style.top = newY + 'px'
   }
+}
+
+function getDegree(Y, X) {
+  if( Y > 0 && X > 0) {
+    return Math.atan(Y/X) * 180 / Math.PI
+  } else if(Y > 0 && X < 0) {
+    return Math.atan(Y/X) * 180 / Math.PI - 180
+  } else if(Y < 0 && X < 0) {
+    return Math.atan(Y/X) * 180 / Math.PI + 180
+  } else if(Y < 0 && X > 0) {
+    return Math.atan(Y/X) * 180 / Math.PI
+  } 
 }
 
 /**
@@ -73,6 +107,10 @@ function getRandomColor() {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 for (let i = 0; i < 10; i++) new Companion()
