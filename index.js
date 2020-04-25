@@ -6,62 +6,77 @@ class Companion {
    * @param {number} height Height of the companion
    * @param {number} width Width of the companion
    * @param {hexadecimal} bgColor Background color of the companion
+   * @param {number} borderRadius Pourcentage de border-radius
    */
-  constructor (x, y, height, width, bgColor) {
+  constructor (x, y, height, width, bgColor, borderRadius) {
     // Initialize variables
     this.height = height || random(10, 100)
     this.width = width || this.height || random(10, 100)
     this.bgColor = bgColor || getRandomColor()
+    this.borderRadius = borderRadius || 0
+    this.wrapper = window
     
-    this.rotateSec = 0.5
+    // Time
+    this.rotateSec = 1
     this.moveSec = random(1,5)
-    this.wrapper = document.documentElement
 
     // Create element
     this.elt = document.createElement("div")
 
     this.elt.style.height = this.height + 'px'
     this.elt.style.width = this.width + 'px'
+    this.elt.style.borderRadius = this.borderRadius + '%'
+
+    // Background
     this.elt.style.backgroundColor = this.bgColor
-    this.elt.style.backgroundImage = `url(https://www.girod-signalisation.com/Content/images/PRO_/PRO_signalisation-temporaire-panneaux-composables-symbole-pointe-de-fleche.jpg)`
+    this.elt.style.backgroundImage = `url(https://cdn.discordapp.com/attachments/702966328079810602/703607590269091901/image0.png)`
     this.elt.style.backgroundSize = `contain`
-    this.elt.style.border = `solid 1px blue`
-    this.elt.style.
+    this.elt.style.backgroundRepeat = `no-repeat`
+    this.elt.style.backgroundPosition = `center center`
+    this.elt.style.border = `solid 1px black`
     
+    // Animations
     this.elt.style.transitionDuration = `${this.moveSec}s, ${this.moveSec}s, ${this.rotateSec}s`
     this.elt.style.transitionProperty = `top, left, transform`
     this.elt.style.transitionTimingFunction = `linear`
 
-    this.elt.style.position = 'absolute'
-    this.y = y || random(0,window.innerHeight-this.height)
-    this.x = x || random(0,window.innerWidth-this.width)
+    // Coordinate
+    this.elt.style.position = 'fixed'
+    this.y = y || random(0,this.wrapper.innerHeight-this.height)
+    this.x = x || random(0,this.wrapper.innerWidth-this.width)
 
+    // Start companion
     this.elt.style.zIndex = "9999999"
     document.getElementsByTagName("body")[0].appendChild(this.elt)
-
-    // Let the companion be alive
     this.beAlive()
   }
 
   async beAlive() {
-    const randomX = random(-100,100)
-    const randomY = random(-100,100)
-    const newX = this._x + randomX
-    const newY = this._y + randomY
+    let randomX = random(-100,100)
+    let randomY = random(-100,100)
+    let newX = this._x + randomX
+    let newY = this._y + randomY
 
-    if (!(newX + this.width < this.wrapper.scrollWidth && newX > 0)) { // Si les x dépassent
+    if (!(newX + this.width < this.wrapper.innerWidth && newX > 0)) { // Si les x dépassent
       randomX = randomX * -1 // Inverse les x
+      console.info("Mon dieu il veut sortir X !")
     }
-    if (!(newY + this.height < this.wrapper.scrollHeight && newY > 0)) { // Si les y dépassent
+    if (!(newY + this.height < this.wrapper.innerHeight && newY > 0)) { // Si les y dépassent
       randomY = randomY * -1 // Inverse les y
+      console.info("Mon dieu il veut sortir Y !")
     }
 
-    const degree = getDegree(randomY, randomX)
-    this.elt.style.transform = `rotate(${degree}deg)`
-    await sleep(this.rotateSec * 1000)
-    this.x = newX
-    this.y = newY
-    await sleep(this.moveSec * 1000 + 1000)
+    // Rotate
+    ////const degree = getDegree(randomY, randomX)
+    ////this.elt.style.transform = `rotate(${degree}deg)`
+    ////await sleep(this.rotateSec * 1000)
+
+    // Move
+    this.x = this._x + randomX
+    this.y = this._y + randomY
+    await sleep(this.moveSec * 1000)
+
+    // Repeat
     this.beAlive()
   }
 
@@ -113,4 +128,4 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-for (let i = 0; i < 10; i++) new Companion()
+for (let i = 0; i < 10; i++) new Companion(null, null, 100, null, "white", 100)
