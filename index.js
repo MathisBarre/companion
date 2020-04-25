@@ -17,17 +17,18 @@ class Companion {
     this.wrapper = window
     
     // Time
-    this.rotateSec = 1
+    this.rotateSec = 0.1
     this.moveSec = random(1,5)
 
-    // Create element
+    // STYLE -- Create element
     this.elt = document.createElement("div")
 
     this.elt.style.height = this.height + 'px'
     this.elt.style.width = this.width + 'px'
     this.elt.style.borderRadius = this.borderRadius + '%'
+    this.elt.style.zIndex = "9999999"
 
-    // Background
+    // STYLE -- Background
     this.elt.style.backgroundColor = this.bgColor
     this.elt.style.backgroundImage = `url(https://cdn.discordapp.com/attachments/702966328079810602/703607590269091901/image0.png)`
     this.elt.style.backgroundSize = `contain`
@@ -35,7 +36,7 @@ class Companion {
     this.elt.style.backgroundPosition = `center center`
     this.elt.style.border = `solid 1px black`
     
-    // Animations
+    // STYLE -- Animations
     this.elt.style.transitionDuration = `${this.moveSec}s, ${this.moveSec}s, ${this.rotateSec}s`
     this.elt.style.transitionProperty = `top, left, transform`
     this.elt.style.transitionTimingFunction = `linear`
@@ -45,9 +46,13 @@ class Companion {
     this.y = y || random(0,this.wrapper.innerHeight-this.height)
     this.x = x || random(0,this.wrapper.innerWidth-this.width)
 
+    // Attach event
+    this.elt.addEventListener("mousedown", this.mouseDown)
+    this.elt.addEventListener("mouseup", this.mouseUp)
+
     // Start companion
-    this.elt.style.zIndex = "9999999"
     document.getElementsByTagName("body")[0].appendChild(this.elt)
+    this.lifeAuthorized = true
     this.beAlive()
   }
 
@@ -59,11 +64,11 @@ class Companion {
 
     if (!(newX + this.width < this.wrapper.innerWidth && newX > 0)) { // Si les x dépassent
       randomX = randomX * -1 // Inverse les x
-      console.info("Mon dieu il veut sortir X !")
+      ////console.info("Mon dieu il veut sortir X !")
     }
     if (!(newY + this.height < this.wrapper.innerHeight && newY > 0)) { // Si les y dépassent
       randomY = randomY * -1 // Inverse les y
-      console.info("Mon dieu il veut sortir Y !")
+      ////console.info("Mon dieu il veut sortir Y !")
     }
 
     // Rotate
@@ -77,7 +82,30 @@ class Companion {
     await sleep(this.moveSec * 1000)
 
     // Repeat
+    if(this.lifeAuthorized) {
+      this.beAlive()
+    }
+  }
+
+  mouseDown = () => {
+    this.mouseMoveEvent = this.elt.addEventListener("mousemove", this.mouseMove)
+    this.elt.style.transform = 'scale(0.9)'
+    this.elt.style.transitionDuration = `0s`
+    this.lifeAuthorized = false
+  }
+
+  mouseUp = () => {
+    this.elt.removeEventListener("mousemove", this.mouseMove)
+    this.elt.style.transform = 'scale(1)'
+    this.elt.style.transitionDuration = `${this.moveSec}s, ${this.moveSec}s, ${this.rotateSec}s`
+    this.lifeAuthorized = true
     this.beAlive()
+  }
+
+  mouseMove = (e) => {
+    this.elt
+    this.x = e.pageX - ( this.width / 2 )
+    this.y = e.pageY - ( this.height / 2 )
   }
 
   set x(newX) {
