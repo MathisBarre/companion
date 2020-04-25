@@ -88,14 +88,14 @@ class Companion {
   }
 
   mouseDown = () => {
-    this.mouseMoveEvent = this.elt.addEventListener("mousemove", this.mouseMove)
+    this.mouseMoveEvent = window.addEventListener("mousemove", this.mouseMove)
     this.elt.style.transform = 'scale(0.9)'
     this.elt.style.transitionDuration = `0s`
     this.lifeAuthorized = false
   }
 
   mouseUp = () => {
-    this.elt.removeEventListener("mousemove", this.mouseMove)
+    window.removeEventListener("mousemove", this.mouseMove)
     this.elt.style.transform = 'scale(1)'
     this.elt.style.transitionDuration = `${this.moveSec}s, ${this.moveSec}s, ${this.rotateSec}s`
     this.lifeAuthorized = true
