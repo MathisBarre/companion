@@ -43,5 +43,6 @@ for (let i = 0; i < 1; i++) {
 for (let i = 0; i < 1; i++) new Food()
 
 window.addEventListener("keyup", () => {
-  new Companion(null, null, 100, null, "white", 100)
+  let temp = new Companion(null, null, 100, null, "white", 100)
+  companionList.push(temp)
 })

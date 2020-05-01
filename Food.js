@@ -20,12 +20,15 @@ class Food extends Entity {
   stopCompanionsLife = () => {
     companionList.forEach((companion) => {
       companion.lifeAuthorized = false
+      console.log(`${companion} ne peut plus bouger`)
     })
   }
 
   activeCompanionsLife = () => {
     companionList.forEach((companion) => {
       companion.lifeAuthorized = true
+      companion.beAlive()
+      console.log(`${companion} peut maintenant bouger`)
     })
   }
 

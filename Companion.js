@@ -26,11 +26,12 @@ class Companion extends Entity {
     let newX = this._x + randomX
     let newY = this._y + randomY
 
-    if (!(newX + this.width < this.wrapper.innerWidth && newX > 0)) { // Si les x dépassent
-      randomX = randomX * -1 // Inverse les x
+    // To not get out the window
+    if (!(newX + this.width < this.wrapper.innerWidth && newX > 0)) {
+      randomX = randomX * -1
     }
-    if (!(newY + this.height < this.wrapper.innerHeight && newY > 0)) { // Si les y dépassent
-      randomY = randomY * -1 // Inverse les y
+    if (!(newY + this.height < this.wrapper.innerHeight && newY > 0)) {
+      randomY = randomY * -1
     }
 
     // Rotate
