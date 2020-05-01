@@ -1,4 +1,8 @@
 class Food extends Entity {
+  /**
+   * Initialize food
+   * @param {string} bgImage Background image
+   */
   constructor(bgImage) {
     super(
       null, null, // x, y
@@ -10,11 +14,18 @@ class Food extends Entity {
 
     this.elt.addEventListener("mousedown", this.stopCompanionsLife)
     this.elt.addEventListener("mouseup", this.verifyIfOnCompanion)
+    this.elt.addEventListener("mouseup", this.activeCompanionsLife)
   }
 
   stopCompanionsLife = () => {
     companionList.forEach((companion) => {
       companion.lifeAuthorized = false
+    })
+  }
+
+  activeCompanionsLife = () => {
+    companionList.forEach((companion) => {
+      companion.lifeAuthorized = true
     })
   }
 
