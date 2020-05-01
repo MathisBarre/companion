@@ -64,11 +64,9 @@ class Companion {
 
     if (!(newX + this.width < this.wrapper.innerWidth && newX > 0)) { // Si les x dépassent
       randomX = randomX * -1 // Inverse les x
-      ////console.info("Mon dieu il veut sortir X !")
     }
     if (!(newY + this.height < this.wrapper.innerHeight && newY > 0)) { // Si les y dépassent
       randomY = randomY * -1 // Inverse les y
-      ////console.info("Mon dieu il veut sortir Y !")
     }
 
     // Rotate
@@ -92,6 +90,7 @@ class Companion {
     this.elt.style.transform = 'scale(0.9)'
     this.elt.style.transitionDuration = `0s`
     this.lifeAuthorized = false
+    this.elt.style.zIndex += 1
   }
 
   mouseUp = () => {
@@ -100,6 +99,7 @@ class Companion {
     this.elt.style.transitionDuration = `${this.moveSec}s, ${this.moveSec}s, ${this.rotateSec}s`
     this.lifeAuthorized = true
     this.beAlive()
+    this.elt.style.zIndex -= 1
   }
 
   mouseMove = (e) => {
@@ -156,4 +156,8 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-for (let i = 0; i < 10; i++) new Companion(null, null, 100, null, "white", 100)
+for (let i = 0; i < 1; i++) new Companion(null, null, 100, null, "white", 100)
+
+window.addEventListener("keyup", () => {
+  new Companion(null, null, 100, null, "white", 100)
+})
