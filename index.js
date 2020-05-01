@@ -35,7 +35,11 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-for (let i = 0; i < 1; i++) new Companion(null, null, 100, null, "white", 100, null, null, null)
+var companionList = []
+for (let i = 0; i < 1; i++) {
+  let temp = new Companion(null, null, 100, null, "white", 100, null, null, null)
+  companionList.push(temp)
+}
 for (let i = 0; i < 1; i++) new Food()
 
 window.addEventListener("keyup", () => {

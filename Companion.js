@@ -1,12 +1,16 @@
+/* Companion object */
 class Companion extends Entity {
   /**
-   * 
+   * Initialize companion
    * @param {number} x x initial
    * @param {number} y y initial
    * @param {number} height Height of the companion
    * @param {number} width Width of the companion
    * @param {hexadecimal} bgColor Background color of the companion
-   * @param {number} borderRadius Pourcentage de border-radius
+   * @param {number} borderRadius Percentage of border-radius
+   * @param {string} bgPause Bg when not moving
+   * @param {string} bgMove Bg when moving
+   * @param {string} bgEat Bg when eat
    */
   constructor (x, y, height, width, bgColor, borderRadius, bgPause, bgMove, bgEat) {
     super(x, y, height, width, bgColor, borderRadius, bgPause, bgMove, bgEat)
