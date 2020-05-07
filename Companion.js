@@ -17,7 +17,7 @@ class Companion extends Entity {
 
     this.elt.addEventListener("mouseup", this.land)
     this.lifeAuthorized = true
-    this.beAlive()
+    setTimeout(()=> this.beAlive(), 1000)
   }
 
   async beAlive() {
