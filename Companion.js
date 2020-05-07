@@ -42,7 +42,10 @@ class Companion extends Entity {
     // Move
     this.x = this._x + randomX
     this.y = this._y + randomY
-    await sleep(this.moveSec * 1000 + /*this.dontMoveSec*/ 1000)
+    this.elt.style.backgroundImage = `url(${this.bgMove})`
+    await sleep(this.moveSec * 1000) // Move time
+    this.elt.style.backgroundImage = `url(${this.bgPause})`
+    await sleep(random(1000, 10000)) // Pause time
 
     // Repeat
     if(this.lifeAuthorized) {

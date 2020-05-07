@@ -22,7 +22,7 @@ class Entity {
 
     // VARIABLE -- Frames / Background Images
     this.bgPause = bgPause || "https://cdn.discordapp.com/attachments/702966328079810602/703607590269091901/image0.png"
-    this.bgMove = bgMove || this.bgPause 
+    this.bgMove = bgMove || "https://cdn.discordapp.com/attachments/702966328079810602/708062099196346408/Untitled_Artwork.gif"
     this.bgEat = bgEat || this.bgPause
 
     // Time
