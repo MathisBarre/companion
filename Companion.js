@@ -16,11 +16,18 @@ class Companion extends Entity {
     super(x, y, height, width, bgColor, borderRadius, bgPause, bgMove, bgEat)
 
     this.elt.addEventListener("mouseup", this.land)
+    this.elt.addEventListener("mousedown", this.grab)
     this.lifeAuthorized = true
+    this.isAlive = 0
     setTimeout(()=> this.beAlive(), 1000)
   }
 
   async beAlive() {
+    this.isAlive = this.isAlive + 1
+    await sleep(random(1000, 10000)) // Pause time
+    if(this.isAlive >= 1 ) { this.isAlive -= 1; return }
+    if(!this.lifeAuthorized) return
+
     let randomX = random(-100,100)
     let randomY = random(-100,100)
     let newX = this._x + randomX
@@ -40,21 +47,27 @@ class Companion extends Entity {
     ////await sleep(this.rotateSec * 1000)
 
     // Move
+    this.elt.style.backgroundImage = `url(${this.bgMove})`
     this.x = this._x + randomX
     this.y = this._y + randomY
-    this.elt.style.backgroundImage = `url(${this.bgMove})`
     await sleep(this.moveSec * 1000) // Move time
     this.elt.style.backgroundImage = `url(${this.bgPause})`
-    await sleep(random(1000, 10000)) // Pause time
 
     // Repeat
-    if(this.lifeAuthorized) {
-      this.beAlive()
-    }
+    this.isAlive = false;
+    if (this.lifeAuthorized && !this.isAlive ) this.beAlive();
+
+  }
+
+  grab = (e) => {
+    this.lifeAuthorized = false
+    this.elt.style.backgroundImage = `url(${this.bgPause})`
+    this.x = e.pageX - ( this.width / 2 )
+    this.y = e.pageY - ( this.height / 2 )
   }
 
   land = () => {
-    this.lifeAuthorized = true
+    if (!this.isAlive) this.lifeAuthorized = true
     this.beAlive()
   }
 }

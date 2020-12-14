@@ -36,8 +36,9 @@ function sleep(ms) {
 }
 
 var companionList = []
+let temp
 for (let i = 0; i < 1; i++) {
-  let temp = new Companion(null, null, 200, null, "white", 100, null, null, null)
+  temp = new Companion(null, null, 200, null, "white", 100, null, null, null)
   companionList.push(temp)
 }
 for (let i = 0; i < 1; i++) new Food()

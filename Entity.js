@@ -48,7 +48,7 @@ class Entity {
     this.elt.style.backgroundSize = `contain`
     this.elt.style.backgroundRepeat = `no-repeat`
     this.elt.style.backgroundPosition = `center center`
-    this.elt.style.border = `solid 1px black`
+    this.elt.style.border = `solid 0px black`
     
     // STYLE -- Animations
     this.elt.style.transitionDuration = this.timeToTransition
@@ -73,15 +73,16 @@ class Entity {
 
   grabe = () => {
     this.mouseMoveEvent = window.addEventListener("mousemove", this.forceMove)
+
     this.elt.style.transform = 'scale(1.1)'
     this.elt.style.transitionDuration = `0s`
-    this.lifeAuthorized = false
     this.elt.style.zIndex = parseInt(this.elt.style.zIndex) + 1
     this.elt.style.boxShadow = this.shadowWhenDrag
   }
 
   land = () => {
     window.removeEventListener("mousemove", this.forceMove)
+
     this.elt.style.transform = 'scale(1)'
     this.elt.style.transitionDuration = this.timeToTransition
     this.elt.style.zIndex = "9999999"
